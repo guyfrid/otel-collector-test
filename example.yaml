@@ -1,0 +1,21 @@
+receivers:
+  jaeger:
+    protocols:
+      thrift_compact:
+      grpc:
+
+processors:
+  splitbatch:
+
+exporters:
+  jaeger:
+    endpoint: jaeger:14250
+    insecure: true
+  logging:
+    loglevel: debug
+service:
+  pipelines:
+    traces:
+      receivers: [jaeger]
+      processors: [splitbatch]
+      exporters: [jaeger, logging]
